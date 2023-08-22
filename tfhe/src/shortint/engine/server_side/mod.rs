@@ -234,7 +234,7 @@ impl ShortintEngine {
     ) -> EngineResult<CompressedServerKey> {
         let bootstrapping_key = match cks.parameters.pbs_parameters().unwrap() {
             crate::shortint::PBSParameters::PBS(pbs_params) => {
-                #[cfg(not(feature = "__wasm_api"))]
+                #[cfg(not(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown"))))]
                 let bootstrapping_key = par_allocate_and_generate_new_seeded_lwe_bootstrap_key(
                     &cks.small_lwe_secret_key,
                     &cks.glwe_secret_key,
@@ -245,7 +245,7 @@ impl ShortintEngine {
                     &mut self.seeder,
                 );
 
-                #[cfg(feature = "__wasm_api")]
+                #[cfg(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown")))]
                 let bootstrapping_key = allocate_and_generate_new_seeded_lwe_bootstrap_key(
                     &cks.small_lwe_secret_key,
                     &cks.glwe_secret_key,
@@ -259,7 +259,7 @@ impl ShortintEngine {
                 ShortintCompressedBootstrappingKey::Classic(bootstrapping_key)
             }
             crate::shortint::PBSParameters::MultiBitPBS(pbs_params) => {
-                #[cfg(not(feature = "__wasm_api"))]
+                #[cfg(not(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown"))))]
                 let bootstrapping_key =
                     par_allocate_and_generate_new_seeded_lwe_multi_bit_bootstrap_key(
                         &cks.small_lwe_secret_key,
@@ -272,7 +272,7 @@ impl ShortintEngine {
                         &mut self.seeder,
                     );
 
-                #[cfg(feature = "__wasm_api")]
+                #[cfg(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown")))]
                 let bootstrapping_key =
                     allocate_and_generate_new_seeded_lwe_multi_bit_bootstrap_key(
                         &cks.small_lwe_secret_key,

@@ -133,7 +133,7 @@ impl BooleanEngine {
             lwe_sk.lwe_dimension().to_lwe_size().0 * LOG2_Q_32 + 128,
         );
 
-        #[cfg(not(feature = "__wasm_api"))]
+        #[cfg(not(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown"))))]
         let lwe_public_key: LwePublicKeyOwned<u32> = par_allocate_and_generate_new_lwe_public_key(
             &lwe_sk,
             zero_encryption_count,
@@ -142,7 +142,7 @@ impl BooleanEngine {
             &mut self.encryption_generator,
         );
 
-        #[cfg(feature = "__wasm_api")]
+        #[cfg(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown")))]
         let lwe_public_key: LwePublicKeyOwned<u32> = allocate_and_generate_new_lwe_public_key(
             &lwe_sk,
             zero_encryption_count,
@@ -176,7 +176,7 @@ impl BooleanEngine {
             lwe_sk.lwe_dimension().to_lwe_size().0 * LOG2_Q_32 + 128,
         );
 
-        #[cfg(not(feature = "__wasm_api"))]
+        #[cfg(not(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown"))))]
         let compressed_lwe_public_key = par_allocate_and_generate_new_seeded_lwe_public_key(
             &lwe_sk,
             zero_encryption_count,
@@ -185,7 +185,7 @@ impl BooleanEngine {
             &mut self.bootstrapper.seeder,
         );
 
-        #[cfg(feature = "__wasm_api")]
+        #[cfg(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown")))]
         let compressed_lwe_public_key = allocate_and_generate_new_seeded_lwe_public_key(
             &lwe_sk,
             zero_encryption_count,

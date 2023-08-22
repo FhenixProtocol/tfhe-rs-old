@@ -17,3 +17,6 @@ pub mod prelude;
 pub mod seeders;
 
 pub mod fft_impl;
+
+#[cfg(feature = "custom-seeder")]
+pub use seeders::custom_seeder::{CustomSeeder, set_custom_seeder};

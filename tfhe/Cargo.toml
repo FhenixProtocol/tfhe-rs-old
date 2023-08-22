@@ -75,6 +75,10 @@ serde-wasm-bindgen = { version = "0.4", optional = true }
 getrandom = { version = "0.2.8", optional = true }
 bytemuck = "1.13.1"
 
+rand_core = { version = "0.6.4", optional = true, default-features = false}
+rand_chacha = { version = "0.3.1", default-features = false, optional = true }
+sha2 = { version = "0.10.7", default-features = false }
+
 [features]
 boolean = []
 shortint = []
@@ -90,6 +94,8 @@ __c_api = ["cbindgen", "bincode"]
 boolean-c-api = ["boolean", "__c_api"]
 shortint-c-api = ["shortint", "__c_api"]
 high-level-c-api = ["boolean-c-api", "shortint-c-api", "integer", "__c_api"]
+
+custom-seeder = ["lazy_static", "rand_chacha", "rand_core"]
 
 __wasm_api = [
     "wasm-bindgen",

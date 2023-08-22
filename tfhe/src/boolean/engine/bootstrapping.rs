@@ -222,7 +222,7 @@ impl Bootstrapper {
         &mut self,
         cks: &ClientKey,
     ) -> Result<CompressedServerKey, Box<dyn std::error::Error>> {
-        #[cfg(not(feature = "__wasm_api"))]
+        #[cfg(not(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown"))))]
         let bootstrapping_key = par_allocate_and_generate_new_seeded_lwe_bootstrap_key(
             &cks.lwe_secret_key,
             &cks.glwe_secret_key,
@@ -233,7 +233,7 @@ impl Bootstrapper {
             &mut self.seeder,
         );
 
-        #[cfg(feature = "__wasm_api")]
+        #[cfg(any(feature = "__wasm_api", all(target_arch = "wasm32", target_os = "unknown")))]
         let bootstrapping_key = allocate_and_generate_new_seeded_lwe_bootstrap_key(
             &cks.lwe_secret_key,
             &cks.glwe_secret_key,
